@@ -1,0 +1,53 @@
+.signin-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: 2rem;
+}
+
+.signin-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 3rem;
+  max-width: 400px;
+  width: 100%;
+}
+
+.signin-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.signin-header h1 {
+  font-size: 2rem;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.signin-header p {
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+.signin-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.signin-buttons button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.signin-buttons button:hover {
+  background-color: #1d4ed8;
+}

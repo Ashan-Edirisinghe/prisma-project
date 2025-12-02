@@ -20,7 +20,7 @@ async function seed() {
         console.log("Seeded 3 users successfully");
     } catch (error) {
         console.error("Error seeding data:", error);
-        throw error;
+      
     } finally {
         await prisma.$disconnect();
         await pool.end();

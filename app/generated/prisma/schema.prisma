@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output = "../app/generated/prisma"
+  output   = "../app/generated/prisma"
 }
 
 datasource db {
@@ -15,16 +15,14 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String 
-  image     String?
-  accounts  Account[]
-  sessions  Session[]
-  jobs      Job[] @relation("postedjobs")
+  id           String        @id @default(cuid())
+  email        String        @unique
+  name         String
+  image        String?
+  accounts     Account[]
+  sessions     Session[]
+  jobs         Job[]         @relation("postedjobs")
   applications Application[]
-
- 
 }
 
 model Job {
@@ -37,7 +35,7 @@ model Job {
   createdAt   DateTime @default(now())
   postedById  String
 
-  postedBy User @relation("postedjobs", fields: [postedById], references: [id], onDelete: Cascade)  
+  postedBy     User          @relation("postedjobs", fields: [postedById], references: [id], onDelete: Cascade)
   applications Application[]
 }
 
@@ -48,34 +46,34 @@ model Application {
   status    String   @default("pending")
   appliedAt DateTime @default(now())
 
-  job  Job  @relation(fields: [jobId], references: [id]   )
-  user User @relation(fields: [userId], references: [id] )
+  job  Job  @relation(fields: [jobId], references: [id])
+  user User @relation(fields: [userId], references: [id])
 }
 
 model Account {
-  id                String   @id @default(cuid())
+  id                String  @id @default(cuid())
   userId            String
   type              String
   provider          String
   providerAccountId String
   refresh_token     String?
   access_token      String?
-  expires_at       Int?
-  token_type       String?
-  scope            String?
-  id_token         String?
-  session_state    String?
-  user  User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@unique([provider, providerAccountId])
-} 
+}
 
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique
   userId       String
   expires      DateTime
-  user  User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {
