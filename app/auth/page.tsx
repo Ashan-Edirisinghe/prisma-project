@@ -1,3 +1,4 @@
+import { signIn } from '@/auth';
 import styles from '@/styles/signin.module.css';
 
 export default function SignInPage() {
@@ -10,7 +11,14 @@ export default function SignInPage() {
                 </div>
 
                 <div className={styles['signin-buttons']}>
-                    <button>Sign In with Google</button>
+                    <form
+                        action={async () => {
+                            'use server';
+                            await signIn('google', { redirectTo: '/' });
+                        }}
+                    >
+                        <button type="submit">Sign In with Google</button>
+                    </form>
                 </div>
             </div>
         </div>
