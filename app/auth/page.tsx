@@ -1,4 +1,6 @@
-import { signIn } from '@/auth';
+'use client';
+
+import { signIn } from 'next-auth/react';
 import styles from '@/styles/signin.module.css';
 
 export default function SignInPage() {
@@ -11,14 +13,9 @@ export default function SignInPage() {
                 </div>
 
                 <div className={styles['signin-buttons']}>
-                    <form
-                        action={async () => {
-                            'use server';
-                            await signIn('google', { redirectTo: '/' });
-                        }}
-                    >
-                        <button type="submit">Sign In with Google</button>
-                    </form>
+                    <button onClick={() => signIn('google', { callbackUrl: '/about' })}>
+                        Sign In with Google
+                    </button>
                 </div>
             </div>
         </div>

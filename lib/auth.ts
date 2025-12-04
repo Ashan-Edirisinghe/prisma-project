@@ -1,12 +1,11 @@
-import { signIn, signOut  } from "@/auth";
-import { redirect } from "next/dist/server/api-utils";
+'use server';
+
+import { signIn, signOut } from 'next-auth/react';
 
 export const login = async () => {
-    await signIn("google", { redirectTo: "/" });
-
+    await signIn("google", { callbackUrl: "/" });
 }
 
 export const logout = async () => {
-    await signOut( { redirectTo: "/auth/signin" });
-     
+    await signOut({ callbackUrl: "/auth" });
 }

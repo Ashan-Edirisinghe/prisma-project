@@ -1,10 +1,6 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import type { DefaultSession } from "next-auth";
-import type { JWT } from "next-auth/jwt";
 import GoogleProvider from "next-auth/providers/google";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
- 
-import prisma from "@/lib/prisma";
 
 declare module "next-auth" {
   interface Session extends DefaultSession {
@@ -12,36 +8,41 @@ declare module "next-auth" {
   }
 }
 
-declare module "next-auth/jwt" {
-  interface JWT {
-    id?: string;
-  }
-}
-
-export const {auth,handler, signIn, signOut } = NextAuth({
-    session: {
-        strategy: "jwt",
-    }
-    ,
-    adapter: PrismaAdapter(prisma),
+export const authOptions: NextAuthOptions = {
     providers: [
         GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID!,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+            clientId: process.env.GOOGLE_CLIENT_ID?.trim() || '',
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET?.trim() || '',
         }),
     ],
     callbacks: {
-        async jwt({ token, user }) {
-            if (user) {
-                token.id = user.id;
+        async signIn({ user }) {
+            const prisma = (await import("@/lib/prisma")).default;
+            
+            try {
+                const existingUser = await prisma.user.findUnique({
+                    where: { email: user.email! }
+                });
+
+                if (!existingUser) {
+                    await prisma.user.create({
+                        data: {
+                            email: user.email!,
+                            name: user.name || 'User',
+                        }
+                    });
+                    console.log("New user created:", user.email);
+                } else {
+                    console.log("User already exists:", user.email);
+                }
+                return true;
+            } catch (error) {
+                console.error("Error saving user to database:", error);
+                return true; // Allow sign in even if DB save fails
             }
-            return token;   
         },
-        async session({ session, token, user }) {
-           if(session.user){
-            session.user.id = token.id as string;
-           }
-           return session;
-        }
-    }
-});
+    },
+    secret: process.env.NEXTAUTH_SECRET,
+};
+
+export default NextAuth(authOptions);
