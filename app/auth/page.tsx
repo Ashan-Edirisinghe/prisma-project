@@ -13,7 +13,7 @@ export default function SignInPage() {
                 </div>
 
                 <div className={styles['signin-buttons']}>
-                    <button onClick={() => signIn('google', { callbackUrl: '/about' })}>
+                    <button onClick={() => signIn('google', { callbackUrl: '/profile' })}>
                         Sign In with Google
                     </button>
                 </div>
