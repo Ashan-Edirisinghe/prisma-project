@@ -3,6 +3,19 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/auth';
 import prisma from '@/lib/prisma';
 
+export async function GET(req: NextRequest) {
+    try {
+         
+        const jobs = await prisma.job.findMany({ orderBy:
+             { createdAt: 'desc' } });
+            
+        return NextResponse.json({ jobs }, { status: 200 });
+    } catch (error) {
+        console.error('Error fetching jobs:', error);
+        return NextResponse.json({ error: 'Failed to fetch jobs' }, { status: 500 });
+    }
+}
+
 export async function POST(req: NextRequest) {
     try {
         const session = await getServerSession(authOptions);
@@ -41,3 +54,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Failed to create job' }, { status: 500 });
     }
 }
+
+//get posted jobs by user
+
+ 

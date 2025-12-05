@@ -30,8 +30,8 @@ export default function Navbar() {
             </Link>
           </li>
           <li>
-            <Link href="/search">
-              Search
+            <Link href="/jobs">
+               Search
             </Link>
           </li>
           <li>
