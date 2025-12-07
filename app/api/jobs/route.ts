@@ -11,10 +11,10 @@ export async function GET() {
       orderBy: { createdAt: "desc" },
     });
 
-    return Response.json(jobs);
+    return NextResponse.json({ jobs });
   } catch (error) {
     console.error("DB ERROR:", error);
-    return new Response("Database error", { status: 500 });
+    return NextResponse.json({ error: "Database error" }, { status: 500 });
   }
 }
 
