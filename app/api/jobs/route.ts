@@ -3,18 +3,21 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/auth';
 import prisma from '@/lib/prisma';
 
-export async function GET(req: NextRequest) {
-    try {
-         
-        const jobs = await prisma.job.findMany({ orderBy:
-             { createdAt: 'desc' } });
-            
-        return NextResponse.json({ jobs }, { status: 200 });
-    } catch (error) {
-        console.error('Error fetching jobs:', error);
-        return NextResponse.json({ error: 'Failed to fetch jobs' }, { status: 500 });
-    }
+  
+
+export async function GET() {
+ try {
+    const jobs = await prisma.job.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+
+    return Response.json(jobs);
+  } catch (error) {
+    console.error("DB ERROR:", error);
+    return new Response("Database error", { status: 500 });
+  }
 }
+
 
 export async function POST(req: NextRequest) {
     try {

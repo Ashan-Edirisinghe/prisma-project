@@ -9,6 +9,7 @@ export default function PostJob() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        
         const formdata = new FormData(e.target as HTMLFormElement);
         const data = {
             title: formdata.get('title') as string,
@@ -118,10 +119,16 @@ export default function PostJob() {
                 </div>
 
                 <div className={styles['button-group']}>
-                    <button type="submit" className={styles['btn-submit']}>
+                    <button 
+                        type="submit" 
+                        className={styles['btn-submit']}
+                    >
                         Post Job
                     </button>
-                    <button type="button"  >
+                    <button 
+                        type="button" 
+                        onClick={() => router.push('/profile')}
+                    >
                         Cancel
                     </button>
                 </div>
